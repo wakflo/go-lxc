@@ -27,7 +27,15 @@ jobs:
       - name: Install dependencies
         run: |
           sudo add-apt-repository ppa:ubuntu-lxc/daily -y
-          sudo apt-get install -qq apparmor lxc lxc-dev pkg-config uidmap busybox libdbus-1-dev libseccomp-dev libcap-dev libselinux-dev
+          sudo apt-get install -qq apparmor lxc lxc-dev pkg-config uidmap busybox libdbus-1-dev libseccomp-dev libcap-dev libselinux-dev nftables iptables
+
+      - name: Reset all firewalling
+        run: |
+          sudo iptables -F
+          sudo iptables -P INPUT ACCEPT
+          sudo iptables -P OUTPUT ACCEPT
+          sudo iptables -P FORWARD ACCEPT
+          sudo nft flush ruleset
 
       - name: Setup test environment
         run: |
