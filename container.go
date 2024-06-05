@@ -647,9 +647,16 @@ func (c *Container) StartWithArgs(args []string) error {
 		return err
 	}
 
-	if !bool(C.go_lxc_start(c.container, 0, makeNullTerminatedArgs(args))) {
-		return ErrStartFailed
+	if args != nil {
+		if !bool(C.go_lxc_start(c.container, 0, makeNullTerminatedArgs(args))) {
+			return ErrStartFailed
+		}
+	} else {
+		if !bool(C.go_lxc_start(c.container, 0, nil)) {
+			return ErrStartFailed
+		}
 	}
+
 	return nil
 }
 
@@ -667,8 +674,14 @@ func (c *Container) StartExecute(args []string) error {
 		return err
 	}
 
-	if !bool(C.go_lxc_start(c.container, 1, makeNullTerminatedArgs(args))) {
-		return ErrStartFailed
+	if args != nil {
+		if !bool(C.go_lxc_start(c.container, 1, makeNullTerminatedArgs(args))) {
+			return ErrStartFailed
+		}
+	} else {
+		if !bool(C.go_lxc_start(c.container, 1, nil)) {
+			return ErrStartFailed
+		}
 	}
 
 	return nil
