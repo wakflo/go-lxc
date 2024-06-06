@@ -1412,10 +1412,6 @@ func TestIPv4Addresses(t *testing.T) {
 }
 
 func TestIPv6Addresses(t *testing.T) {
-	if !ipv6() {
-		t.Skip("skipping test since lxc bridge does not have ipv6 address")
-	}
-
 	c, err := NewContainer(ContainerName())
 	if err != nil {
 		t.Errorf(err.Error())
