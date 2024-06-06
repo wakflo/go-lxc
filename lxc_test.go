@@ -42,11 +42,6 @@ func unprivileged() bool {
 	return os.Geteuid() != 0
 }
 
-func travis() bool {
-	// https://docs.travis-ci.com/user/environment-variables/#default-environment-variables
-	return os.Getenv("TRAVIS") == "true"
-}
-
 func supported(moduleName string) bool {
 	if _, err := os.Stat("/sys/module/" + moduleName); err != nil {
 		return false
@@ -1411,21 +1406,23 @@ func TestIPv4Addresses(t *testing.T) {
 	}
 	defer c.Release()
 
+	// Wait for IP configuration.
+	time.Sleep(5 * time.Second)
+
 	if _, err := c.IPv4Addresses(); err != nil {
 		t.Errorf(err.Error())
 	}
 }
 
 func TestIPv6Addresses(t *testing.T) {
-	if !ipv6() {
-		t.Skip("skipping test since lxc bridge does not have ipv6 address")
-	}
-
 	c, err := NewContainer(ContainerName())
 	if err != nil {
 		t.Errorf(err.Error())
 	}
 	defer c.Release()
+
+	// Wait for IP configuration.
+	time.Sleep(5 * time.Second)
 
 	if _, err := c.IPv6Addresses(); err != nil {
 		t.Errorf(err.Error())
