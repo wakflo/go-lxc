@@ -1406,6 +1406,9 @@ func TestIPv4Addresses(t *testing.T) {
 	}
 	defer c.Release()
 
+	// Wait for IP configuration.
+	time.Sleep(5 * time.Second)
+
 	if _, err := c.IPv4Addresses(); err != nil {
 		t.Errorf(err.Error())
 	}
@@ -1417,6 +1420,9 @@ func TestIPv6Addresses(t *testing.T) {
 		t.Errorf(err.Error())
 	}
 	defer c.Release()
+
+	// Wait for IP configuration.
+	time.Sleep(5 * time.Second)
 
 	if _, err := c.IPv6Addresses(); err != nil {
 		t.Errorf(err.Error())
