@@ -42,11 +42,6 @@ func unprivileged() bool {
 	return os.Geteuid() != 0
 }
 
-func travis() bool {
-	// https://docs.travis-ci.com/user/environment-variables/#default-environment-variables
-	return os.Getenv("TRAVIS") == "true"
-}
-
 func supported(moduleName string) bool {
 	if _, err := os.Stat("/sys/module/" + moduleName); err != nil {
 		return false
