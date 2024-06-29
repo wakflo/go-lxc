@@ -1,4 +1,4 @@
-module github.com/lxc/go-lxc
+module github.com/wakflo/go-lxc
 
 go 1.20
 
